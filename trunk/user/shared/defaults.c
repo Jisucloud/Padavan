@@ -625,6 +625,9 @@ struct nvram_pair router_defaults[] = {
 	{ "socks5_s_username", "" },
 	{ "socks5_s_password", "" },
 	{ "ss_turn", "0" },
+	{ "ss_cgroups", "0" },
+	{ "ss_cgoups_cpu_s", "512" },
+	{ "ss_cgoups_mem_s", "20M" },
 	{ "ss_watchcat", "1" },
 	{ "ss_turn_s", "600" },
 	{ "ss_turn_ss", "5" },
@@ -765,6 +768,23 @@ struct nvram_pair router_defaults[] = {
 	{ "frps_enable", "0" },
 #endif
 	
+
+#if defined(APP_ALDRIVER)
+	/*阿里云盘*/
+	{ "aliyundrive_enable", "0" },
+	{ "ald_refresh_token", "" },
+	{ "ald_auth_user", "" },
+	{ "ald_auth_password", "" },
+	{ "ald_read_buffer_size", "10485760" },
+	{ "ald_cache_size", "1000" },
+	{ "ald_cache_ttl", "600" },
+	{ "ald_host", "0.0.0.0" },
+	{ "ald_port", "8089" },
+	{ "ald_root", "/" },
+	{ "ald_domain_id", "0" },
+	{ "ald_no_trash", "0" },
+	{ "ald_read_only", "0" },
+#endif
 #if defined(APP_SMARTDNS)	
 	/*SmartDns*/
 	{ "sdns_enable", "0" },

@@ -1064,9 +1064,12 @@
 			{"ss_turn","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"lan_con","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"ss_chnroute_url","",NULL, FALSE},
-			{"ss_watchcat", "",NULL, FALSE},
-			{"ss_turn_s","",NULL, EVM_RESTART_SHADOWSOCKS},
-			{"ss_turn_ss","",NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_cgroups", "",NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_cgoups_cpu_s", "",NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_cgoups_mem_s", "",NULL, EVM_RESTART_SHADOWSOCKS},
+	        {"ss_watchcat", "",NULL, FALSE},
+	        {"ss_turn_s","",NULL, EVM_RESTART_SHADOWSOCKS},
+	        {"ss_turn_ss","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"ss_keyword","",NULL, FALSE},
 			{"ss_update_chnroute","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"ss_update_gfwlist","",NULL, EVM_RESTART_SHADOWSOCKS},
@@ -1163,6 +1166,9 @@
 			{"snds_ipv6", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_www", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_exp", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_exp_ttl", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_exp_ttl_max", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_cache_persist", "", NULL, EVM_RESTART_SMARTDNS},
 			{"snds_redirect", "", NULL, EVM_RESTART_SMARTDNS},
 			{"snds_cache", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_ttl", "", NULL, EVM_RESTART_SMARTDNS},
@@ -1170,6 +1176,11 @@
 			{"sdns_ttl_max", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_coredump", "", NULL, EVM_RESTART_SMARTDNS},	
 			{"sdnss_staticnum_x", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_speed", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_address", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_as", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_ipset", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_ns", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdnse_enable", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdnse_port", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdnse_tcp", "", NULL, EVM_RESTART_SMARTDNS},
@@ -1191,6 +1202,24 @@
 	};
 #endif
 
+#if defined(APP_ALDRIVER)
+	struct variable variables_ALDRIVER[] = {
+			{"aliyundrive_enable", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_refresh_token", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_auth_user", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_auth_password", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_read_buffer_size", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_cache_size", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_cache_ttl", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_host", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_port", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_root", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_domain_id", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_no_trash", "", NULL, EVM_RESTART_ALDRIVER},
+			{"ald_read_only", "", NULL, EVM_RESTART_ALDRIVER},
+			{0,0,0,0}
+		};
+#endif
     struct variable variables_DwebConf[] = {
 	        {"w_ai", "", NULL, FALSE},
 			{"w_vpn_s", "", NULL, FALSE},
@@ -1355,6 +1384,12 @@
 #if defined(APP_SMARTDNS)
 		{"SmartdnsConf",		variables_SmartdnsConf},
 #endif
+#if defined(APP_SHADOWSOCKS)
+		{"ShadowsocksConf",		variables_ShadowsocksConf},
+#endif
+#if defined(APP_ALDRIVER)
+		{"ALDRIVER",		variables_ALDRIVER},
+#endif
 		{"DwebConf",		variables_DwebConf},
 		{"LANGUAGE",			variables_Language},
 		{0,0}
@@ -1468,6 +1503,9 @@
 #endif
 #if defined(APP_SMBD) || defined(APP_NMBD)
 		{EVM_RESTART_NMBD,		EVT_RESTART_NMBD,		RCN_RESTART_NMBD,	0},
+#endif
+#if defined(APP_ALDRIVER)
+		{EVM_RESTART_ALDRIVER,		EVT_RESTART_ALDRIVER,		RCN_RESTART_ALDRIVER,	0},
 #endif
 		{EVM_RESTART_FIREWALL,		EVT_RESTART_FIREWALL,		RCN_RESTART_FIREWALL,	0},
 		{0,0,0,0}

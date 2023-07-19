@@ -1385,6 +1385,11 @@ handle_notifications(void)
 		else if (strcmp(entry->d_name, RCN_RESTART_DNSFORWARDER) == 0)
 		{
 			restart_dnsforwarder();
+#endif
+#if defined(APP_ALDRIVER)
+		else if (strcmp(entry->d_name, RCN_RESTART_ALDRIVER) == 0)
+		{
+			restart_aldriver();
 		}
 #endif
 #if defined(APP_SMBD) || defined(APP_NMBD)

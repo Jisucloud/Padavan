@@ -3,12 +3,30 @@
 mkdir -p /tmp/dnsmasq.dom
 logger -t "为防止dnsmasq启动失败，创建/tmp/dnsmasq.dom/"
 
+# ap relay monitor [simonchen]
+if [ ! -x /etc/storage/sh_ezscript.sh ]; then
+	cp /etc_ro/sh_ezscript.sh /etc/storage/sh_ezscript.sh
+fi
+if [ -x /etc/storage/ap_script.sh ]; then
+	/etc/storage/ap_script.sh >/dev/null 2>&1 &
+else
+	cp /etc_ro/ap_script.sh /etc/storage/ap_script.sh
+fi
+
 smartdns_conf="/etc/storage/smartdns_custom.conf"
 dnsmasq_Conf="/etc/storage/dnsmasq/dnsmasq.conf"
 smartdns_Ini="/etc/storage/smartdns_conf.ini"
 sdns_port=$(nvram get sdns_port)
 if [ $(nvram get sdns_enable) = 1 ] ; then
-logger -t "自动启动" "正在启动SmartDns"
+   if [ -f "$smartdns_conf" ] ; then
+       sed -i '/去广告/d' $smartdns_conf
+       sed -i '/adbyby/d' $smartdns_conf
+       sed -i '/no-resolv/d' "$dnsmasq_Conf"
+       sed -i '/server=127.0.0.1#'"$sdns_portd"'/d' "$dnsmasq_Conf"
+       sed -i '/port=0/d' "$dnsmasq_Conf"
+       rm  -f "$smartdns_Ini"
+   fi
+logger -t "自动启动" "正在启动SmartDNS"
 /usr/bin/smartdns.sh start
 fi
 
@@ -82,4 +100,8 @@ fi
 if [ $(nvram get frpc_enable) = 1 ] ; then
 logger -t "自动启动" "正在启动frp client"
 /usr/bin/frp.sh start
+fi
+if [ $(nvram get aliyundrive_enable) = 1 ] ; then
+logger -t "自动启动" "正在启动阿里云盘"
+/usr/bin/aliyundrive-webdav.sh start
 fi

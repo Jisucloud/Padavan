@@ -2176,6 +2176,9 @@ static int shadowsocks_status_hook(int eid, webs_t wp, int argc, char **argv)
 	if (ss_status_code == 0){
 		ss_status_code = pids("v2ray");
 	}
+	if (ss_status_code == 0){
+		ss_status_code = pids("xray");
+	}
 
 	if (ss_status_code == 0){
 		ss_status_code = pids("trojan");
@@ -2295,6 +2298,13 @@ static int dns2tcp_status_hook(int eid, webs_t wp, int argc, char **argv)
 	websWrite(wp, "function dns2tcp_status() { return %d;}\n", dns2tcp_status_code);
 	return 0;
 }
+
+static int dnsproxy_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int dnsproxy_status_code = pids("dnsproxy");
+	websWrite(wp, "function dnsproxy_status() { return %d;}\n", dnsproxy_status_code);
+			        return 0;
+}
 #endif
 
 #if defined (APP_SMARTDNS)
@@ -2339,6 +2349,15 @@ static int frps_status_hook(int eid, webs_t wp, int argc, char **argv)
 }
 #endif
 
+
+#if defined (APP_ALDRIVER)
+static int aliyundrive_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int aliyundrive_status_code = pids("aliyundrive-webdav");
+	websWrite(wp, "function aliyundrive_status() { return %d;}\n", aliyundrive_status_code);
+	return 0;
+}
+#endif
 static int update_action_hook(int eid, webs_t wp, int argc, char **argv)
 {
 	char *up_action = websGetVar(wp, "connect_action", "");
@@ -2592,6 +2611,11 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 	int has_ipv6 = 1;
 #else
 	int has_ipv6 = 0;
+#endif
+#if defined(APP_ALDRIVER)
+	int found_app_aldriver = 1;
+#else
+	int found_app_aldriver = 0;
 #endif
 
 #if defined(USE_HW_NAT)
@@ -4573,6 +4597,7 @@ struct ej_handler ej_handlers[] =
 	{ "rules_count", rules_count_hook},
 	{ "pdnsd_status", pdnsd_status_hook},
 	{ "dns2tcp_status", dns2tcp_status_hook},
+	{ "dnsproxy_status", dnsproxy_status_hook},
 #endif
 #if defined (APP_KOOLPROXY)
 	{ "koolproxy_action", koolproxy_action_hook},
@@ -4594,6 +4619,9 @@ struct ej_handler ej_handlers[] =
 #if defined (APP_FRP)
 	{ "frpc_status", frpc_status_hook},
 	{ "frps_status", frps_status_hook},
+#endif
+#if defined (APP_ALDRIVER)
+	{ "aliyundrive_status", aliyundrive_status_hook},
 #endif
 	{ "update_action", update_action_hook},
 	{ "openssl_util_hook", openssl_util_hook},
